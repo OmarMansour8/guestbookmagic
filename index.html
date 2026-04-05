@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Pansè & Mohamed - Celebrating Our Union</title>
+    <title>Sarah & Michael - Celebrating Our Union</title>
     <!-- Keep original stylesheet reference but also include full inline fallback for safety -->
     <link rel="stylesheet" href="Styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -32,7 +32,7 @@
                         Oh, and don't forget to leave a message alongside the pictures.</p>
                 </div>
                 <div class="story-image">
-                    <img src="both.jpg" alt="Pansè & Mohamed">
+                    <img src="both.jpg" alt="Sarah & Michael">
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@
         <div class="footer-content">
             <p class="footer-text">Thank you for being part of our special day</p>
             <div class="copyright">
-                <p>Made with <span class="heart">♥</span> for Pansè & Mohamed | &copy; 2025 Guest Book Magic</p>
+                <p>Made with <span class="heart">♥</span> for Sarah & Michael | &copy; 2025 Guest Book Magic</p>
             </div>
         </div>
     </footer>
@@ -163,22 +163,9 @@
     }
 
     // --------------------- MESSAGES LOGIC (instant, no server) ---------------------
-    function loadMessagesFromStorage() {
-        const stored = localStorage.getItem(STORAGE_MESSAGES);
-        if (stored) {
-            try {
-                messagesArray = JSON.parse(stored);
-            } catch(e) { messagesArray = []; }
-        } else {
-            messagesArray = [];
-        }
-        renderMessages();
-    }
+  
 
-    function saveMessagesToStorage() {
-        localStorage.setItem(STORAGE_MESSAGES, JSON.stringify(messagesArray));
-    }
-
+   
     function renderMessages() {
         if (!messageListDiv) return;
         messageListDiv.innerHTML = '';
@@ -215,33 +202,14 @@
             timestamp: Date.now()
         };
         messagesArray.push(newMessage);
-        // saveMessagesToStorage();
+       
         renderMessages();
         return true;
     }
 
     // --------------------- IMAGES LOGIC (instant, no server) ---------------------
-    function loadImagesFromStorage() {
-        const storedImages = localStorage.getItem(STORAGE_IMAGES);
-        if (storedImages) {
-            try {
-                imagesArray = JSON.parse(storedImages);
-            } catch(e) { imagesArray = []; }
-        } else {
-            imagesArray = [];
-        }
-        renderGallery();
-    }
-
-    function saveImagesToStorage() {
-        const toStore = imagesArray.map(img => ({
-            id: img.id,
-            dataURL: img.dataURL,
-            fileName: img.fileName,
-            timestamp: img.timestamp
-        }));
-        localStorage.setItem(STORAGE_IMAGES, JSON.stringify(toStore));
-    }
+    
+    
 
     function renderGallery() {
         if (!photoGalleryDiv) return;
@@ -268,7 +236,6 @@
                         const index = imagesArray.findIndex(img => img.id == id);
                         if (index !== -1) {
                             imagesArray.splice(index, 1);
-                            // saveImagesToStorage();
                             renderGallery();
                         }
                     }
@@ -306,7 +273,6 @@
                 timestamp: Date.now()
             };
             imagesArray.push(newImage);
-            saveImagesToStorage();
             renderGallery();
             fileInput.value = '';
         };
@@ -377,9 +343,7 @@
         submitBtn = document.getElementById("submit");
         downloadBtn = document.getElementById("downloadAllBtn");
         
-        // Load stored data
-        // loadMessagesFromStorage();
-        // loadImagesFromStorage();
+                
         
         // ---- SINGLE MESSAGE HANDLER (removed all duplicates) ----
         if (sendMessageBtn) {
@@ -467,10 +431,10 @@ document.addEventListener('contextmenu', function(e) {
 // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
 document.addEventListener('keydown', function(e) {
     // F12 key
-    // if (e.key === 'F12') {
-    //     e.preventDefault();
-    //     return false;
-    // }
+    if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+    }
     // Ctrl+Shift+I (Windows/Linux)
     if (e.ctrlKey && e.shiftKey && e.key === 'I') {
         e.preventDefault();
