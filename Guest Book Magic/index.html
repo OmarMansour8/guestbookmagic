@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Pansè & Mohamed - Celebrating Our Union</title>
+    <!-- Keep original stylesheet reference but also include full inline fallback for safety -->
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="couple-names fade-in">Sarah & Michael</h1>
+            <div class="divider"></div>
+            <p class="wedding-date fade-in delayed-1">October 12, 2025</p>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="section" id="story">
+        <div class="container">
+            <h2 class="section-title">To Our Dearest Family and Friends</h2> 
+            <div class="story-container">
+                <div class="story-text">
+                    <p>We want to express our heartfelt gratitude for each of you. Your love, support, and presence mean the world to us and have made our journey to this moment so special. Please share the incredible photographs you captured. 
+                        Oh, and don't forget to leave a message alongside the pictures.</p>
+                </div>
+                <div class="story-image">
+                    <img src="both.jpg" alt="Pansè & Mohamed">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Section -->
+    <section class="section section-dark" id="details">
+        <div class="container">
+            <h2 class="section-title">Celebrate With Us</h2>
+            <div class="interactive-cards">
+                <div class="interactive-card">
+                    <div class="card-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="card-title">Leave a Message</h3>
+                    <p class="card-text">Share your warm wishes, advice, or favorite memory with us.</p>
+                    <a href="#messages" class="btn">Write Message</a>
+                </div>
+                
+                <div class="interactive-card">
+                    <div class="card-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 class="card-title">Share Photos</h3>
+                    <p class="card-text">Upload your favorite moments from our special day.</p>
+                    <a href="#gallery" class="btn">Upload Photos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Messages Section - MODIFIED: instant frontend only, no backend calls -->
+    <section class="section" id="messages">
+        <div class="container">
+            <h2 class="section-title">Guest Messages</h2>
+            <div class="form-container">
+                <div class="messages-container" id="messageList">
+                    <div class="message">
+                        <p>Congratulations to the beautiful couple! Wishing you a lifetime of happiness together.</p>
+                        <p class="message-author">- Sarah & Michael</p>
+                    </div>
+                    <div class="message">
+                        <p>So happy for both of you! Can't wait to celebrate with you on your special day.</p>
+                        <p class="message-author">- The Johnson Family</p>
+                    </div>
+                    <!-- Messages will be loaded and displayed dynamically from frontend storage -->
+                </div>
+                <div id="noDataLabel" class="no-data-label" style="display: none; text-align: center; margin: 2rem 0; color: var(--burgundy, #8b2c3d);">No messages yet</div>
+                
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--burgundy, #8b2c3d);">Leave Your Message</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="authorInput" placeholder="Your name (optional)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea id="messageInput" placeholder="Write your heartfelt message here..."></textarea>
+                </div>
+                <button class="btn btn-block" id="sendMessage">Send Message</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section - MODIFIED: instant image upload, display, no server calls -->
+    <section class="section section-dark" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Photo Gallery</h2>
+            <div class="form-container">
+                <div class="gallery" id="photoGallery">
+                     <div class="gallery-item static-image">
+                    <img src="bride.png" alt="Wedding ceremony">
+                </div>
+                <div class="gallery-item static-image">
+                    <img src="gethering.jpg" alt="Wedding rings">
+                </div>
+                    <!-- Gallery items will be added dynamically from frontend storage -->
+                </div>
+                <div id="noDataFound" style="display: none; text-align: center; margin: 2rem 0; color: var(--gold, #c7a252);">No images yet</div>
+                
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--gold, #c7a252);">Share Your Photos</h3>
+                <div class="form-group">
+                    <input type="file" id="myImage" accept="image/*">
+                    <p id="errorMs" style="color: #ffd966; margin-top: 0.5rem;"></p>
+                </div>
+                <button class="btn btn-block" id="submit">Upload Photos</button>
+                <button class="btn btn-block" id="downloadAllBtn" style="margin-top: 1rem; background: var(--navy, #1e3a4d);">Download All Images</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">Thank you for being part of our special day</p>
+            <div class="copyright">
+                <p>Made with <span class="heart">♥</span> for Pansè & Mohamed | &copy; 2025 Guest Book Magic</p>
+            </div>
+        </div>
+    </footer>
+
+  <script>
+    // ------------------------------------------------------------------
+    // FIXED: Removed duplicate event handlers - single source of truth
+    // All updates reflect instantly in UI without any server requests.
+    // ------------------------------------------------------------------
+    
+    // Storage keys
+    const STORAGE_MESSAGES = 'wedding_messages';
+    const STORAGE_IMAGES = 'wedding_images';
+
+    // Global arrays
+    let messagesArray = [];
+    let imagesArray = [];    // each { id, dataURL, fileName, timestamp }
+
+    // DOM elements
+    let messageListDiv, noDataLabel, authorInput, messageInput, sendMessageBtn;
+    let photoGalleryDiv, noDataFound, fileInput, errorMsg, submitBtn, downloadBtn;
+
+    // Helper: Escape HTML
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // --------------------- MESSAGES LOGIC (instant, no server) ---------------------
+    function loadMessagesFromStorage() {
+        const stored = localStorage.getItem(STORAGE_MESSAGES);
+        if (stored) {
+            try {
+                messagesArray = JSON.parse(stored);
+            } catch(e) { messagesArray = []; }
+        } else {
+            messagesArray = [];
+        }
+        renderMessages();
+    }
+
+    function saveMessagesToStorage() {
+        localStorage.setItem(STORAGE_MESSAGES, JSON.stringify(messagesArray));
+    }
+
+    function renderMessages() {
+        if (!messageListDiv) return;
+        messageListDiv.innerHTML = '';
+        if (messagesArray.length === 0) {
+            noDataLabel.style.display = 'block';
+        } else {
+            noDataLabel.style.display = 'none';
+            messagesArray.forEach(msg => {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'message';
+                const displayName = msg.author && msg.author.trim() !== "" ? escapeHtml(msg.author.trim()) : "Guest";
+                msgDiv.innerHTML = `
+                    <p>${escapeHtml(msg.text)}</p>
+                    <p class="message-author">- ${displayName} </p>
+                `;
+                messageListDiv.appendChild(msgDiv);
+            });
+        }
+        // Auto-scroll to bottom of messages container
+        if (messageListDiv.lastChild) {
+            messageListDiv.lastChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    function addMessageToFrontend(author, text) {
+        if (!text || text.trim() === "") {
+            alert("Please enter a message.");
+            return false;
+        }
+        const newMessage = {
+            id: Date.now() + Math.random(),
+            author: author && author.trim() !== "" ? author.trim() : null,
+            text: text.trim(),
+            timestamp: Date.now()
+        };
+        messagesArray.push(newMessage);
+        // saveMessagesToStorage();
+        renderMessages();
+        return true;
+    }
+
+    // --------------------- IMAGES LOGIC (instant, no server) ---------------------
+    function loadImagesFromStorage() {
+        const storedImages = localStorage.getItem(STORAGE_IMAGES);
+        if (storedImages) {
+            try {
+                imagesArray = JSON.parse(storedImages);
+            } catch(e) { imagesArray = []; }
+        } else {
+            imagesArray = [];
+        }
+        renderGallery();
+    }
+
+    function saveImagesToStorage() {
+        const toStore = imagesArray.map(img => ({
+            id: img.id,
+            dataURL: img.dataURL,
+            fileName: img.fileName,
+            timestamp: img.timestamp
+        }));
+        localStorage.setItem(STORAGE_IMAGES, JSON.stringify(toStore));
+    }
+
+    function renderGallery() {
+        if (!photoGalleryDiv) return;
+        photoGalleryDiv.innerHTML = '';
+        if (imagesArray.length === 0) {
+            noDataFound.style.display = 'block';
+        } else {
+            noDataFound.style.display = 'none';
+            imagesArray.forEach((img, idx) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.style.position = 'relative';
+                galleryItem.innerHTML = `
+                    <img src="${img.dataURL}" alt="Shared memory" style="width:100%; height:100%; object-fit:cover;">
+                    <button class="remove-photo-btn" data-id="${img.id}" style="position:absolute; top:6px; right:6px; background:rgba(0,0,0,0.6); border:none; color:white; border-radius:30px; width:28px; height:28px; cursor:pointer; font-size:14px; backdrop-filter:blur(2px);">✕</button>
+                `;
+                photoGalleryDiv.appendChild(galleryItem);
+            });
+            document.querySelectorAll('.remove-photo-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = btn.getAttribute('data-id');
+                    if (id) {
+                        const index = imagesArray.findIndex(img => img.id == id);
+                        if (index !== -1) {
+                            imagesArray.splice(index, 1);
+                            // saveImagesToStorage();
+                            renderGallery();
+                        }
+                    }
+                });
+            });
+        }
+    }
+
+    function addImageToFrontend(file) {
+        if (!file) {
+            errorMsg.innerText = "Please select an image file.";
+            return false;
+        }
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif'];
+        if (!allowedTypes.includes(file.type)) {
+            errorMsg.innerText = "Only JPG, PNG, WEBP or GIF images are allowed.";
+            return false;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+            errorMsg.innerText = "Image too large (max 10MB).";
+            return false;
+        }
+        errorMsg.innerText = "";
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            const dataURL = evt.target.result;
+            const fileExt = file.name.split('.').pop() || 'jpg';
+            const fileName = `wedding_${Date.now()}_${Math.floor(Math.random()*10000)}.${fileExt}`;
+            const newImage = {
+                id: Date.now() + Math.random(),
+                dataURL: dataURL,
+                fileName: fileName,
+                originalName: file.name,
+                timestamp: Date.now()
+            };
+            imagesArray.push(newImage);
+            saveImagesToStorage();
+            renderGallery();
+            fileInput.value = '';
+        };
+        reader.onerror = () => {
+            errorMsg.innerText = "Error reading file, please try again.";
+        };
+        reader.readAsDataURL(file);
+        return true;
+    }
+
+    // Download all images as ZIP
+    async function downloadAllImages() {
+        if (imagesArray.length === 0) {
+            alert("No images to download. Please upload some photos first.");
+            return;
+        }
+        const zip = new JSZip();
+        const promises = [];
+        
+        for (let i = 0; i < imagesArray.length; i++) {
+            const imgData = imagesArray[i];
+            const dataURL = imgData.dataURL;
+            const fetchBlob = async (url) => {
+                const response = await fetch(url);
+                return response.blob();
+            };
+            promises.push(
+                fetchBlob(dataURL).then(blob => {
+                    let extension = 'jpg';
+                    if (imgData.fileName && imgData.fileName.includes('.')) {
+                        extension = imgData.fileName.split('.').pop();
+                    } else {
+                        extension = blob.type.split('/')[1] || 'jpg';
+                    }
+                    const safeName = `gallery_photo_${i+1}_${Date.now()}.${extension}`;
+                    zip.file(safeName, blob);
+                }).catch(err => {
+                    console.warn("Could not fetch blob for image", err);
+                })
+            );
+        }
+        
+        await Promise.all(promises);
+        zip.generateAsync({ type: "blob" }).then(content => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(content);
+            link.download = 'wedding_memories.zip';
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }).catch(err => {
+            alert("Error generating zip file.");
+        });
+    }
+
+    // Initialize when document is ready - SINGLE EVENT HANDLER ONLY
+    $(document).ready(function() {
+        // Get DOM references
+        messageListDiv = document.getElementById("messageList");
+        noDataLabel = document.getElementById("noDataLabel");
+        authorInput = document.getElementById("authorInput");
+        messageInput = document.getElementById("messageInput");
+        sendMessageBtn = document.getElementById("sendMessage");
+        
+        photoGalleryDiv = document.getElementById("photoGallery");
+        noDataFound = document.getElementById("noDataFound");
+        fileInput = document.getElementById("myImage");
+        errorMsg = document.getElementById("errorMs");
+        submitBtn = document.getElementById("submit");
+        downloadBtn = document.getElementById("downloadAllBtn");
+        
+        // Load stored data
+        // loadMessagesFromStorage();
+        // loadImagesFromStorage();
+        
+        // ---- SINGLE MESSAGE HANDLER (removed all duplicates) ----
+        if (sendMessageBtn) {
+            // Remove any existing listeners by replacing with fresh element
+            const newSendBtn = sendMessageBtn.cloneNode(true);
+            sendMessageBtn.parentNode.replaceChild(newSendBtn, sendMessageBtn);
+            newSendBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                const author = authorInput ? authorInput.value : "";
+                const msgText = messageInput ? messageInput.value.trim() : "";
+                if (msgText === "") {
+                    alert("Please write a message before sending.");
+                    return;
+                }
+                addMessageToFrontend(author, msgText);
+                // Clear inputs
+                if (messageInput) messageInput.value = "";
+                if (authorInput) authorInput.value = "";
+            });
+        }
+        
+        // ---- SINGLE IMAGE UPLOAD HANDLER ----
+        if (submitBtn) {
+            const newUploadBtn = submitBtn.cloneNode(true);
+            submitBtn.parentNode.replaceChild(newUploadBtn, submitBtn);
+            newUploadBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                const files = fileInput ? fileInput.files : [];
+                if (files.length === 0) {
+                    if (errorMsg) errorMsg.innerText = "Please select an image to upload.";
+                    return;
+                }
+                addImageToFrontend(files[0]);
+            });
+        }
+        
+        // ---- DOWNLOAD HANDLER ----
+        if (downloadBtn) {
+            const newDownloadBtn = downloadBtn.cloneNode(true);
+            downloadBtn.parentNode.replaceChild(newDownloadBtn, downloadBtn);
+            newDownloadBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                downloadAllImages();
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId !== "#") {
+                    const targetElem = document.querySelector(targetId);
+                    if (targetElem) {
+                        targetElem.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.story-text, .story-image, .interactive-card').forEach(el => {
+            observer.observe(el);
+        });
+        // Disable right-click
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+// Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+document.addEventListener('keydown', function(e) {
+    // F12 key
+    // if (e.key === 'F12') {
+    //     e.preventDefault();
+    //     return false;
+    // }
+    // Ctrl+Shift+I (Windows/Linux)
+    if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+Shift+J (Windows/Linux)
+    if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+U (View source)
+    if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+Shift+C (Inspect element)
+    if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+        e.preventDefault();
+        return false;
+    }
+});
+// setInterval(function() {
+//     const before = new Date();
+//     debugger;
+//     const after = new Date();
+//     if (after - before > 100) {
+//         // Dev tools is open
+//         document.body.innerHTML = '<h1>Developer tools detected!</h1><p>Access denied.</p>';
+//     }
+// }, 1000);
+    });
+</script>
+</body>
+</html>
